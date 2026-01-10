@@ -1,6 +1,6 @@
 
 from utils.model_loader import ModelLoader
-from prompt_library.prompt import SYSTEM_PROMPT
+from prompt_library.prompts import SYSTEM_PROMPT
 
 
 from tools.weather_info_tool import WeatherInfoTool
@@ -15,14 +15,20 @@ from langgraph.prebuilt import ToolNode, tools_condition
 
 
 class GraphBuilder:
-    def __init__(self):
-        self.tools = [
-            WeatherInfoTool(),
-            PlaceSearchTool(),
-            CalculatorTool(),
-            CurrencyConverterTool(),
-        ]
+    def __init__(self, model_provider:str="groq"):
+        self.tools = []
+        self.model_provider = ModelLoader(model_provider=model_provider)
+        self.llm = self.model_provider.load_llm()
+        
+        self.calculator_tools = CalculatorTool()
+        self.weather_tools = WeatherInfoTool()
+        self.place_search_tools = PlaceSearchTool()
+        self.currency_converter_tools = CurrencyConverterTool()
+        
+        self.llm_with_tools = self.llm.bind_tools(tools= self.tools)
         self.system_prompt = SYSTEM_PROMPT
+        
+        self.graph = None
 
     def agent_function(self, state: MessagesState):
         user_question = state["messages"]
