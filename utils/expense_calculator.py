@@ -1,6 +1,6 @@
 #Class calculator
 
-class calculator:
+class Calculator:
     @staticmethod
     def multiply(a: int, b: int) -> int:
         """Multiply two integers
@@ -12,9 +12,10 @@ class calculator:
         Returns:
             int:the product of a and b
         """
+        return a*b
         
     @staticmethod
-    def calculate_tool(*x: float) -> float:
+    def calculate_total(*x: float) -> float:
         """Calculate sum of the given list of numbers
 
         Args:
