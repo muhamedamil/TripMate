@@ -24,7 +24,12 @@ class GraphBuilder:
         self.weather_tools = WeatherInfoTool()
         self.place_search_tools = PlaceSearchTool()
         self.currency_converter_tools = CurrencyConverterTool()
-        
+        self.tools.extend([
+            *self.calculator_tools.calculator_tool_list,
+            *self.weather_tools.weather_tool_list,
+            *self.place_search_tools.place_search_tool_list,
+            *self.currency_converter_tools.currency_converter_tool_list,        
+        ])
         self.llm_with_tools = self.llm.bind_tools(tools= self.tools)
         self.system_prompt = SYSTEM_PROMPT
         
