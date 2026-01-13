@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TripMate - AI Travel Companion</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+  </head>
+  <body>
+    <div class="bg-overlay"></div>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <h1>TripMate</h1>
+          <span class="tagline">Your AI Travel Companion</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <h2>Where will your next adventure take you?</h2>
+          <div class="search-box">
+            <textarea
+              id="queryInput"
+              placeholder="Ex: Plan a 5-day trip to Paris with a budget of $2000..."
+            ></textarea>
+            <button id="searchBtn" onclick="sendQuery()">
+              <span id="btnText">Start Journey</span>
+              <div id="loader" class="loader hidden"></div>
+            </button>
+          </div>
+        </section>
+
+        <section id="resultContainer" class="result-container hidden">
+          <div class="glass-panel">
+            <div id="responseContent" class="markdown-body"></div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>&copy; 2026 TripMate AI. Explore safely.</p>
+      </footer>
+    </div>
+    <script src="/static/script.js"></script>
+  </body>
+</html>
