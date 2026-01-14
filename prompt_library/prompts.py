@@ -19,7 +19,8 @@ SYSTEM_PROMPT = SystemMessage(
     - Detailed cost breakdown
     - Per Day expense budget approximately
     - Weather details
-    - Safety concerns about the country and details about the authority if anything is happened
+    Real-time safety concerns (current crises, pandemics, wars) and locations/contact details for local authorities (Police, Embassies, Hospitals)
+    
     
     Use the available tools to gather information and make detailed cost breakdowns.
     Provide everything in one comprehensive response formatted in clean Markdown.
