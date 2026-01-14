@@ -20,7 +20,7 @@ class CurrencyConverterTool:
         logger.info("Initializing CurrencyConverterTool")
         load_dotenv()
         self.api_key = os.getenv("EXCHANGE_RATE_API_KEY")
-        self.currency_service = CurrencyConverter()
+        self.currency_service = CurrencyConverter(api_key= self.api_key)
         self.currency_converter_tool_list = self._setup_tools()
 
     def _setup_tools(self):
