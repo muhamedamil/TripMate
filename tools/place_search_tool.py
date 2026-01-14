@@ -12,15 +12,23 @@ class PlaceSearchTool:
     """
     A class that provides tools for searching places and attractions.
     """
+
     def __init__(self):
         """
         Initializes the PlaceSearchTool and sets up the tool list.
         """
         logger.info("Initializing PlaceSearchTool")
         load_dotenv()
-        self.google_api_key = os.environ.get("GPLACES_API_KEY")
+        self.google_api_key = (
+            os.environ.get("GPLACES_API_KEY")
+            or os.environ.get("GPLACE_API_KEY")
+            or os.environ.get("GOOGLE_API_KEY")
+        )
         self.google_places_search = GooglePlaceSearchTool(self.google_api_key)
-        self.tavily_search = TavilyPlaceSearchTool()
+        self.tavily_api_key = os.environ.get("TAVILY_API_KEY") or os.environ.get(
+            "TAVILAY_API_KEY"
+        )
+        self.tavily_search = TavilyPlaceSearchTool(self.tavily_api_key)
         self.place_search_tool_list = self._setup_tools()
 
     def _setup_tools(self) -> List:
@@ -30,6 +38,7 @@ class PlaceSearchTool:
         Returns:
             list: A list of decorated tool functions.
         """
+
         @tool
         def search_attractions(place: str) -> str:
             """
@@ -60,6 +69,7 @@ class PlaceSearchTool:
                     error = TripMateException(ex, sys)
                     logger.error(error.error_message)
                     raise error
+
         @tool
         def search_restaurants(place: str) -> str:
             """
@@ -121,6 +131,7 @@ class PlaceSearchTool:
                     error = TripMateException(ex, sys)
                     logger.error(error.error_message)
                     raise error
+
         @tool
         def search_transportation(place: str) -> str:
             """
@@ -153,4 +164,9 @@ class PlaceSearchTool:
                     logger.error(error.error_message)
                     raise error
 
-        return [search_attractions, search_restaurants, search_activities, search_transportation,]
+        return [
+            search_attractions,
+            search_restaurants,
+            search_activities,
+            search_transportation,
+        ]
