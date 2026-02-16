@@ -28,16 +28,12 @@ class CalculatorTool:
         """
 
         @tool
-        def estimate_total_hotel_cost(price_per_night: str, total_days: float) -> float:
+        def estimate_total_hotel_cost(
+            price_per_night: float, total_days: float
+        ) -> float:
             """
-            Calculate the total hotel cost based on price per night and total days.
-
-            Args:
-                price_per_night (str): The cost of the hotel per night.
-                total_days (float): The total number of days stayed.
-
-            Returns:
-                float: The total hotel cost.
+            Calculate the total hotel cost.
+            IMPORTANT: Use JSON numbers only (e.g., 150.0), NOT strings (e.g., "150.0").
             """
             try:
                 logger.info(f"Estimating hotel cost: {price_per_night} x {total_days}")
@@ -48,35 +44,28 @@ class CalculatorTool:
                 raise error
 
         @tool
-        def calculate_total_expense(*costs: float) -> float:
+        def calculate_total_expense(
+            flights_cost: float, hotels_cost: float, activities_cost: float
+        ) -> float:
             """
-            Calculate the total expense of the trip by summing all individual costs.
-
-            Args:
-                costs: Variable number of individual costs.
-
-            Returns:
-                float: The total sum of all costs.
+            Sum flight, hotel, and activity costs into a total.
+            IMPORTANT: Use JSON numbers only.
             """
             try:
-                logger.info(f"Calculating total expense for costs: {costs}")
-                return self.calculator.calculate_total(*costs)
+                logger.info(
+                    f"Adding costs: {flights_cost}, {hotels_cost}, {activities_cost}"
+                )
+                return flights_cost + hotels_cost + activities_cost
             except Exception as e:
                 error = TripMateException(e, sys)
                 logger.error(error.error_message)
                 raise error
 
         @tool
-        def calculate_daily_expense_budget(total_cost: float, days: int) -> float:
+        def calculate_daily_expense_budget(total_cost: float, days: float) -> float:
             """
-            Calculate the daily expense budget.
-
-            Args:
-                total_cost (float): The total cost of the trip.
-                days (int): The number of days for the trip.
-
-            Returns:
-                float: The daily budget.
+            Divide total cost by number of days.
+            IMPORTANT: Use JSON numbers only.
             """
             try:
                 logger.info(f"Calculating daily budget: {total_cost} / {days}")
@@ -86,4 +75,8 @@ class CalculatorTool:
                 logger.error(error.error_message)
                 raise error
 
-        return [estimate_total_hotel_cost, calculate_daily_expense_budget, calculate_total_expense,]
+        return [
+            estimate_total_hotel_cost,
+            calculate_daily_expense_budget,
+            calculate_total_expense,
+        ]

@@ -1,29 +1,33 @@
 import sys
+from typing import List
 from langgraph.graph import MessagesState
 from langchain_core.messages import SystemMessage
 
 from logger.logger import logger
 from exception.exception_handling import TripMateException
 from utils.model_loader import ModelLoader
-from prompt_library.accommodation_prompts import ACCOMMODATION_SYSTEM_PROMPT
-from tools.amadeus_hotel_tool import AmadeusHotelTool
+from prompt_library.transport_prompts import TRANSPORT_SYSTEM_PROMPT
+from tools.amadeus_transport_tool import AmadeusTransportTool
 
 
 
-class AccommodationAgent:
+class TransportAgent:
     """
-    This is Specialized Agent for getting to know about the real time hotel infos
+    This agent is specialized for retreivning the details about flights and transportation.
+
     """
 
-    def __init__(self, model_provider : str = 'groq'):
-        try :
-            logger.info(f"Initializing {self.__class__.__name__}")
-            self.model_loader = ModelLoader(model_provider=model_provider)
-            self.llm = self.model_loader.load_llm()
+    def __init__(self):
+        try:
+            logger.info("Initializing the TransportAgent")
+            self.model_loader = ModelLoader()
+            self.llm =self.model_loader.load_llm()
 
-            self.hotel_tools = AmadeusHotelTool()
-            self.tools = self.hotel_tools.tool_list
+            # Initializing the tools
+            self.transport_tool = AmadeusTransportTool()
+            self.tools = self.transport_tool.tool_list
 
+            #Bind the tools to the LLM
             self.llm_with_tools = self.llm.bind_tools(self.tools)
 
         except Exception as e:
@@ -31,10 +35,11 @@ class AccommodationAgent:
             logger.error(error.error_message)
             raise error
 
-    def agent_function(self, state: MessagesState) -> dict:
+    def agent_function(self, state:MessagesState) -> dict :
         """
-        This agent function is responsible for getting the hotel info for the user to get the hotel available in the real time
+        This agent_function that calls the LLM with the transport search capabilities.
         """
+        
         try:
             from datetime import datetime
             import time
@@ -44,24 +49,23 @@ class AccommodationAgent:
             time.sleep(1.0)
 
             current_date = datetime.now().strftime("%Y-%m-%d")
-            logger.info("Accommodation agent is processing the user query")
+            logger.info("Transport agent is processing the user query")
             messages = [
                 SystemMessage(
-                    content=ACCOMMODATION_SYSTEM_PROMPT.format(
-                        current_date=current_date
-                    )
+                    content=TRANSPORT_SYSTEM_PROMPT.format(current_date=current_date)
                 )
             ] + state["messages"]
+
             response = self.llm_with_tools.invoke(messages)
             return {"messages": response}
 
         except Exception as e:
-            error = TripMateException(e, sys)
+            error= TripMateException(e, sys)
             logger.error(error.error_message)
             raise error
 
-    def __call__(self):
+    def __call__(self) -> List:
         """
-        returns the tool list
+        Returns the tool list
         """
         return self.tools

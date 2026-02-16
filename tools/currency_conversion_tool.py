@@ -20,7 +20,7 @@ class CurrencyConverterTool:
         logger.info("Initializing CurrencyConverterTool")
         load_dotenv()
         self.api_key = os.getenv("EXCHANGE_RATE_API_KEY")
-        self.currency_service = CurrencyConverter(api_key= self.api_key)
+        self.currency_service = CurrencyConverter(api_key=self.api_key)
         self.currency_converter_tool_list = self._setup_tools()
 
     def _setup_tools(self):
@@ -36,15 +36,7 @@ class CurrencyConverterTool:
             amount: float, from_currency: str, to_currency: str
         ) -> float:
             """
-            Convert an amount from one currency to another.
-
-            Args:
-                amount (float): The amount to convert.
-                from_currency (str): The source currency code 
-                to_currency (str): The destination currency code
-
-            Returns:
-                float: The converted amount.
+            Convert an amount from one currency code to another.
             """
             try:
                 logger.info(

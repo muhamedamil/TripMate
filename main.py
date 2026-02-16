@@ -58,13 +58,16 @@ async def query_travel_agent(query: QueryResponse):
     """
     try:
         logger.info(f"Received query: {query.query}")
-        graph = GraphBuilder(model_provider="groq")
-        react_app = graph()
 
-        messages = {"messages": [query.query]}
+        #initializing the graph builder 
+        graph_builder = GraphBuilder()
+        react_app = graph_builder.build_graph()
+
+        input_state = {"messages": [("user", query.query)]}
+
 
         logger.info("Invoking travel agent graph")
-        output = react_app.invoke(messages)
+        output = react_app.invoke(input_state, config={"recursion_limit": 100})
 
         # if result is dict with messages:
         if isinstance(output, dict) and "messages" in output:
