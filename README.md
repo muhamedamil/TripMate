@@ -1,6 +1,6 @@
 # TripMate: Intelligent Multi-Agent Travel Planner
 
-TripMate is a production-grade, multi-agent travel orchestration system built with **LangGraph** and **LangChain**. It leverages specialized AI agents to automate the end-to-end process of trip planning—from real-time flight discovery and hotel booking to personalized itinerary generation and budgeting.
+TripMate is a production-grade, multi-agent travel orchestration system built with **LangGraph** and **LangChain**. It leverages specialized AI agents to automate the end to end process of trip planning from real time flight discovery and hotel booking to personalized itinerary generation and budgeting.
 
 ---
 
