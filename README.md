@@ -53,28 +53,38 @@ graph TD
 
 ## Getting Started
 
+TripMate uses [**uv**](https://github.com/astral-sh/uv) for lightning-fast, reliable Python package management.
+
 ### 1. Prerequisites
-- Python 3.9+
+
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) installed on your system.
 - [Amadeus Developer API Key](https://developers.amadeus.com/)
 - [Groq Cloud API Key](https://console.groq.com/)
 
-### 2. Installation
+### 2. Installation & Setup
+
 ```bash
 # Clone the repository
 git clone https://github.com/muhamedamil/TripMate.git
 cd TripMate
 
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-pip install -e .
+# Install dependencies and create virtual environment automatically
+uv sync
 ```
 
-### 3. Environment Setup
+### 3. Why uv?
+
+Industrial experts prefer **uv** over standard `pip` or `conda` for several reasons:
+
+- **Performance**: Up to 10-100x faster than `pip`.
+- **Reproducibility**: Generates a `uv.lock` file for consistent builds across all environments.
+- **Simplicity**: Manages Python versions, virtual environments, and dependencies in one tool.
+- **Efficiency**: Global package caching prevents redundant downloads and saves disk space.
+
+### 4. Environment Setup
+
 Create a `.env` file in the root directory and populate it:
+
 ```env
 GROQ_API_KEY="your_groq_key"
 AMADEUS_API_KEY="your_amadeus_key"
@@ -84,9 +94,10 @@ EXCHANGE_RATE_API_KEY="your_exchange_rate_key"
 OPENWEATHER_API_KEY="your_weather_key"
 ```
 
-### 4. Running the Application
+### 5. Running the Application
+
 ```bash
-python main.py
+uv run main.py
 ```
 
 ---
@@ -105,6 +116,7 @@ python main.py
 ## Reliability & Hardening
 
 TripMate is designed for **Production Stability**:
+
 - **Anti-Hallucination**: Stricter negative constraints prevent agents from "inventing" search engines.
 - **Authenticity Mandate**: Itinerary agent is forbidden from giving "estimated ranges"—it list actual real-world prices or reports data unavailability.
 - **Single-Tool Enforcement**: Prevents Groq 8B from failing on parallel tool call chaining.
@@ -112,4 +124,5 @@ TripMate is designed for **Production Stability**:
 ---
 
 ## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
